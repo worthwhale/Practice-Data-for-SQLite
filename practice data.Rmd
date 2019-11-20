@@ -12,19 +12,43 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 library(tidyverse)
-library(DBI) #DBI stands for "database interface" and creates a connection between R and other database management systems
+
+#Loading the required library "DBI', which stands for "database interface" and creates a connection between R and other database management systems.
+library(DBI) 
+
+#NOTE: I had to install the RSQLite package in the console first for the DBI library to load and the code to work.
+#I had to restart R and use "install.packages" in the console before re-loading the DBI library.
+
+```
 
 
-animals <- read_csv("random data.csv") #read in a fake dataset that I created in excel, just so I could practice trying to connect this dataset to DB Browser for sqlite
+```{r}
+
+#Read in a practice dataset (called 'random data') that I created in excel, to attempt connecting this dataset to DB Browser for sqlite
+
+animals <- read_csv("random data.csv") 
+################################################################################################
+
+# Telling R that a new file will be created named "db" that will be a SQLITE file
 
 filename <- "db.sqlite"
+################################################################################################
+
+#I beleive this tells R where to store the 'db' database file within DB Browser (under 'mydb') when it connects to SQLite, but not sure
+
 mydb <- dbConnect(RSQLite::SQLite(), filename)
-dbWriteTable(mydb,"animals", animals) # I think the reason why I get an error on this line when I try to run it, is because the table has already been created in sqlite, so it must've worked the first time.
+################################################################################################
 
-#dbDisconnect(mydb)
-#unlink(filename)
+# This function takes the practice 'animal' data and turns it into a table to be organized within SQLite
+# No need to write to .csv first because this will already create a table; writing to csv first will create an unecessary additional ID column in the database file
+#not sure what the point of the quoted and non-quoted data names is within the function
 
-# I then loaded the RSQLite package in the console, which allowed line 21 of code to work. I had to restart R and use "install.packages" in the console before re-loading the DBI library.
+dbWriteTable(mydb,"animals", animals) 
+
+
+```
+
+
 
 
 
