@@ -1,0 +1,35 @@
+---
+title: "Practice dataframe"
+author: "Shellby Johnson"
+date: "October 7, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(tidyverse)
+library(DBI) #DBI stands for "database interface" and creates a connection between R and other database management systems
+
+
+animals <- read_csv("random data.csv") #read in a fake dataset that I created in excel, just so I could practice trying to connect this dataset to DB Browser for sqlite
+
+filename <- "db.sqlite"
+mydb <- dbConnect(RSQLite::SQLite(), filename)
+dbWriteTable(mydb,"animals", animals) # I think the reason why I get an error on this line when I try to run it, is because the table has already been created in sqlite, so it must've worked the first time.
+
+#dbDisconnect(mydb)
+#unlink(filename)
+
+# I then loaded the RSQLite package in the console, which allowed line 21 of code to work. I had to restart R and use "install.packages" in the console before re-loading the DBI library.
+
+
+
+
+```
+
+
+
